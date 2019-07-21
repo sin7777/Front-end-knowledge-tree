@@ -10,6 +10,16 @@
 * Object
 * Symbol
 
+### null 和 undefined 的区别
+
+null表示"没有对象"，即该处不应该有值
+
+undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义。
+
+null 和 undefined 在 if 判断中都会被判断为 false
+
+null 在做数学运算时被转换成为 0， undefined 被转换成为 NaN
+
 ## 类型的判断方法
 
 > [讲解](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/23)

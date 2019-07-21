@@ -51,3 +51,13 @@ head 内的 JavaScript 需要执行结束才开始渲染 body，所以尽量不�
 ```HTML
 <div style="height:1px;overflow:hidden;background:red"></div>
 ```
+
+## CSS用来隐藏元素
+
+diaplay:none
+
+overflow:hidden
+
+的区别是什么
+
+## 哪些操作可以清除浮动
