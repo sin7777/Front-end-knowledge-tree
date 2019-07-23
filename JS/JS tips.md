@@ -24,3 +24,24 @@ JS采用的是词法作用域，也就是说静态作用域，函数的作用域
 3. 变量声明
     由名称和对应值(undefined) 组成一 个变量对象的属性被创建;
     如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性
+
+## Object.create
+
+Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__
+
+```JS
+Object.create(proto, [propertiesObject])
+//proto  新创建对象的原型对象
+//propertiesObject  新创建对象的可枚举属性
+   //configurable  true当且仅当该属性描述符的类型可以被改变并且该属性可以从对应对象中删除
+   //enumerable  true 当且仅当在枚举相应对象上的属性时该属性显现
+   //value  
+   //writable  true 当且仅当与该属性相关联的值可以用assignment operator改变时
+
+
+Object.create(null)  //创建的对象是一个空对象,没有继承任何方法
+var o = Object.create({})
+var p = Object.create(Object.prototype)
+```
+
+Object.create() 与 new Object() 的区别
