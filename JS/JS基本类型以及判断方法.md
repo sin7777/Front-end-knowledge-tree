@@ -7,8 +7,8 @@
 * Bool
 * String
 * Number
-* Object
 * Symbol
+* Object（这个叫引用类型）
 
 ### null 和 undefined 的区别
 
@@ -44,7 +44,7 @@ Array.isArray(tmp);
 //Array.isArray(); ES5新增方法，优于instanceof，可以检测出 iframes
 ```
 
-模拟实现instanceof()
+模拟实现 instanceof()
 
 ```JS
 //判断B是不是A的实例
@@ -62,3 +62,47 @@ function instance_of(A, B){
     }
 }
 ```
+
+用typeof来判断基本类型，instanceof判断引用类型
+
+instanceof 检测类型的方式是根据其原型链上的规则，但是基本类型（6个基本类型）没有原型链及相应方法，所以用 instanceof 判断基本类型都会返回 false
+
+使用 instanceof 判断基本类型
+
+```JS
+class PrimitiveString {
+  static [Symbol.hasInstance](x) {
+    return typeof x === 'string'
+  }
+}
+console.log('hello world' instanceof PrimitiveString) // true
+```
+
+```JS
+let df = "1" //基本类型
+//会进行强制类型转换，df转换成为String的实例
+df.__proto__  //String {"", constructor: ƒ, anchor: ƒ, big: ƒ, blink: ƒ, …}
+//会进行强制类型转换，df转换成为String的实例
+df.__proto__.__proto__.__proto__  //null
+//不会进行强制类型转换，为什么不会进行？
+df instanceof String //false
+```
+
+```JS
+//案例1
+console.log(String instanceof String);//false
+//案例2
+console.log(Object instanceof Object);//true
+console.log(Function instanceof Function);//true
+console.log(Function instanceof Object);//true
+//案例3
+function Foo(){}
+function BFoo(){}
+Foo.prototype = new BFoo();
+console.log(Foo instanceof Function); //true
+console.log(Foo instanceof Foo);//false
+```
+
+![案例1](../images/原型链1.jpg)
+![案例2](../images/原型链2.jpg)
+![案例3](../images/原型链3.jpg)
