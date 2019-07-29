@@ -15,13 +15,13 @@ http协议缓存机制 web 性能优化的重要手段，分为强制缓存和�
 
 ### 优先级的问题
 
+* Cache-Control/Expires 优先于 Last-Modified/ETag
+  * 强制缓存优先于对比缓存
 * Cache-Control 优先于 Expires
 * ETag 优先于 Last-Modified
   * Last-Modified 精确到秒，如果在1秒内有好几个操作，则不能区分
   * 如果某些文件会被定期生成，当有时内容并没有任何变化，但 Last-Modified 却改变了，导致文件没法使用缓存
   * Last-Modified 服务器时间与客户端时间可能不一致
-* Cache-Control/Expires 优先于 Last-Modified/ETag
-  * 强制缓存优先于对比缓存
 
 ### 哪些请求不能被缓存
 
