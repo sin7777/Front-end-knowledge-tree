@@ -8,7 +8,7 @@
 * String
 * Number
 * Symbol
-* Object（这个叫引用类型）
+* Object （这个叫引用类型）
 
 ### null 和 undefined 的区别
 
@@ -101,6 +101,8 @@ function BFoo(){}
 Foo.prototype = new BFoo();
 console.log(Foo instanceof Function); //true
 console.log(Foo instanceof Foo);//false
+console.log(Foo instanceof BFoo);//false
+console.log(Foo.prototype instanceof BFoo);//true
 ```
 
 ![案例1](../images/原型链1.jpg)
