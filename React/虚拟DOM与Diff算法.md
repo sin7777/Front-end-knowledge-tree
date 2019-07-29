@@ -17,9 +17,13 @@ Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存
 
 ## React中改进的Diff算法主要从三个层面进行的
 
-* Tree diff  同级比较，只做同层次树的比较，如果不同，会删除重新构建，一次遍历O(n)
-* Component diff  同级之间组件不同，树不同
-* element diff  同层级之间通过设置key的区分，是否真正提交性能（通过key查找，还是通过遍历，这是性能的区分）
+* **Tree diff**  同级比较，只做同层次树的比较，如果不同，会删除重新构建，一次遍历O(n)
+* **Component diff**  同级之间组件不同，树不同
+  * 如果是同一类型的组件，按照原策略继续比较 virtual DOM tree。
+  * 如果不是，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点。
+  * 对于同一类型的组件，有可能其 Virtual DOM 没有任何变化，如果能够确切的知道这点那可以节省大量的 diff 运算时间，因此 React 允许用户通过 shouldComponentUpdate() 来判断该组件是否需要进行 diff。
+* **element diff**  同层级之间通过设置key的区分，是否真正提交性能（通过key查找，还是通过遍历，这是性能的区分）
+  * 提供了三种节点操作，分别为：INSERT_MARKUP（插入）、MOVE_EXISTING（移动） 和 REMOVE_NODE（删除）。
 
 ## React 中 keys 的作用是什么
 

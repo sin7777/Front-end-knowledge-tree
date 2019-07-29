@@ -131,3 +131,26 @@ child.doSomething();        // parent do something!
 const parent = new Parent('father');
 parent.sayName();           // parent name: father
 ```
+
+原型链分析
+
+```JS
+//案例1
+console.log(String instanceof String);//false
+//案例2
+console.log(Object instanceof Object);//true
+console.log(Function instanceof Function);//true
+console.log(Function instanceof Object);//true
+//案例3
+function Foo(){}
+function BFoo(){}
+Foo.prototype = new BFoo();
+console.log(Foo instanceof Function); //true
+console.log(Foo instanceof Foo);//false
+console.log(Foo instanceof BFoo);//false
+console.log(Foo.prototype instanceof BFoo);//true
+```
+
+![案例1](../images/原型链1.jpg)
+![案例2](../images/原型链2.jpg)
+![案例3](../images/原型链3.jpg)
