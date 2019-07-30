@@ -40,8 +40,37 @@ Object.create(proto, [propertiesObject])
 
 
 Object.create(null)  //创建的对象是一个空对象,没有继承任何方法
-var o = Object.create({})
-var p = Object.create(Object.prototype)
+var o = Object.create({}) //o.__proto__.__proto__.__proto__ === null
+var p = Object.create(Object.prototype) //p.__proto__.__proto__ === null
 ```
 
 Object.create() 与 new Object() 的区别
+
+```JS
+var a = new Object()
+var b = Object.create({})
+//a.__proto__.__proto__ === null
+//b.__proto__.__proto__.__proto__ === null
+```
+
+## 数组解构与对象解构
+
+```JS
+//数组解构，根据位置的对应
+var a, b, rest;
+[a, b] = [10, 20];
+console.log(a); // 10
+console.log(b); // 20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+console.log(a); // 10
+console.log(b); // 20
+console.log(rest); // [30, 40, 50]
+
+//对象解构，根据键值对应
+var o = {p: 42, q: true};
+var {p, q} = o;
+
+console.log(p); // 42
+console.log(q); // true
+```

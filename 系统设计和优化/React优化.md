@@ -14,6 +14,7 @@
 ## 代码逻辑优化
 
 * 利用 shouldComponentUpdate 和 PureComponent 避免过多 render function
+  * 但存在浅层比较的问题，对复杂对象会不能比较差异，导致组件不渲染，可以用Object.assign 以及对象扩展运算符改变数据，或者Immutable.js 使用不可变数据结构
 * 不要直接改变 setState 数据
 * 虚拟化长列表 & 常用库 react-virtualized
 * 合理组织 React Component：React Component Patterns

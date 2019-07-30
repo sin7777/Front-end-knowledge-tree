@@ -1,5 +1,7 @@
 # ES6 类
 
+> [参考来源](http://es6.ruanyifeng.com/#docs/class-extends)
+
 ES6 中类就是构造函数，类中定义的所用方法，都是定义在类的prototype属性上面。
 
 ```JS
@@ -62,6 +64,47 @@ printName(); // TypeError: Cannot read property 'print' of undefined
 * 使用箭头函数
   * 箭头函数内部的this总是指向定义时所在的对象
 * 使用Proxy，获取方法的时候，自动绑定this
+
+```JS
+//方式一
+class Foo extends React.Component{
+  handleClick = () => {
+    console.log(this);
+  }
+
+  render(){
+    return (
+      <button type="button" onClick={this.handleClick}>
+        Click Me
+      </button>
+    )
+  }
+}
+ReactDOM.render(
+  <Foo />,
+  document.getElementById("app")
+)
+```
+
+```JS
+//方式二
+class Foo extends React.Component{
+ handleClick(event){
+    console.log(this);
+  }
+  render(){
+    return (
+      <button type="button" onClick={(e) => this.handleClick(e)}>
+        Click Me
+      </button>
+    );
+  }
+
+ReactDOM.render(
+  <Foo />,
+  document.getElementById("app")
+);
+```
 
 ## 静态方法
 
@@ -146,3 +189,7 @@ super这个关键字，既可以当作函数使用，也可以当作对象使用
 ## 类的 prototype 属性和__proto__属性
 
 ![类的继承](../images/类的继承.png)
+
+## 原生构造函数的继承
+
+ES5 无法继承原生的构造函数，因为其`是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）`，所以不能拿到一些方法，而ES6 因其`先将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this`可以继承原生的构造函数
