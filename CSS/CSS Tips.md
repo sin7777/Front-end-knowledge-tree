@@ -6,6 +6,10 @@
 * img标签的 max-heigth 与 max-width
 * transform的translate
 
+## 相当于包含块的宽度
+
+padding的百分比是相对于其包含块的宽度，而不是高度
+
 ## 实现一个三角形
 
 把上、左、右三条边隐藏掉（颜色设为 transparent）
@@ -54,10 +58,36 @@ head 内的 JavaScript 需要执行结束才开始渲染 body，所以尽量不�
 
 ## CSS用来隐藏元素
 
-diaplay:none
+diaplay:none （页面布局发生变化）
 
 overflow:hidden
 
-的区别是什么
+区别是什么？ 重排 与 重绘
 
 ## 哪些操作可以清除浮动
+
+## 包含块
+
+每个元素的盒子都是相对于它的包含块来布局
+
+根据定位元素的不同：position 包含块也不同
+
+static（默认）与relative：由**最近的块级**、单元格（td,th）、行内块创建（tr，em不属于）
+
+fixed：包含块是**当前可视窗口（**viewport）
+
+absolute：绝对定位元素的包含块由离它最近的 'position' 属性为 'absolute'、'relative' 或者 'fixed' 的祖先元素创建，也就是非static祖先元素
+
+但是如果当这个祖先元素为行内元素的时候，包含块就要取决于祖先元素的direction元素了
+
+> 以下来自[微信公总号](https://mp.weixin.qq.com/s/iD8rinWJ_PEI3UZu4-PcMg)
+
+## 负边距的效果
+
+margin-left 的效果是整体往左移
+
+margin-right 的效果是向左拉
+
+## input 的宽度默认宽度取决于size特性的值
+
+并不是给元素设置display:block就会自动填充父元素宽度。input 就是个例外，其默认宽度取决于size特性的值
