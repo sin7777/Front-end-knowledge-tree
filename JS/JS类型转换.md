@@ -47,4 +47,17 @@ true + true // 2   特点2，转成数字
 4 * [1, 2] // NaN
 ```
 
+## == 运算符
+
+解析一道题目 [] == ![] // -> true ，下面是这个表达式为何为 true 的步骤
+
+```JS
+// [] 转成 true，然后取反变成 false
+[] == false
+[] == ToNumber(false) //ToNumber(false) = 0
+[] == 0
+ToPrimitive([]) == 0 // [].toString() -> '',   '' == 0
+0 == 0 // -> true
+```
+
 ## 比较运算
