@@ -1,5 +1,7 @@
 # WebSocket
 
+> [刨根问底HTTP和WebSocket协议(二）](https://juejin.im/post/57b07b6e2e958a005459ece3)
+
 WebSocket 是应用层的协议
 
 WebSocket是基于TCP的一种新的网络协议，并在2011年被IETF定为标准的全双工通信协议，它实现了客户端与服务器**全双工通信**，多适用于服务器向客户端推送消息的场景，当然，客户端也可以像服务器推向消息。
@@ -48,6 +50,10 @@ Sec-WebSocket-Protocol: chat. //5
     * 将#2中生成的字符串进行Base64编码。
 * 如果含有Sec-WebSocket-Extensions头，要判断是否之前的Request握手带有此内容，如果没有，则连接失败。
 * 如果含有Sec-WebSocket-Protocol头，要判断是否之前的Request握手带有此协议，如果没有，则连接失败。
+
+## 心跳检测
+
+为了保证通信双方在线，客户端可服务器会进行心跳检测：发动ping，回复pong，保证对方在线。
 
 ## 协议属性、事件和方法
 
