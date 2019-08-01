@@ -64,6 +64,8 @@ HTTPS 通信接口部分用 SSL（SecureSocket Layer）和 TLS（Transport Layer
 
 ### HTTPS 的加密过程
 
+> [参考](https://juejin.im/entry/5a9ac15bf265da239e4d8831)
+
 非对称加密过程：
 
 * 客户端访问服务器，访问时带上以下信息：
@@ -87,3 +89,46 @@ HTTPS 通信接口部分用 SSL（SecureSocket Layer）和 TLS（Transport Layer
 HTTPS加密的缺点
 
 * 消耗更多的 CPU 以及内存资源
+
+## HTTP 与 HTTPS 的区别
+
+* HTTP 协议不加密，HTTPS 采用加密的方式
+* HTTP 默认使用80端口， HTTPS 默认使用443端口
+
+## http & https & http2.0（之前写的）
+
+### http请求的过程
+
+> [详细讲解](https://zhuanlan.zhihu.com/p/37436528)
+  
+* 域名解析（是否有本地存储）
+* 三次握手建立连接
+* 浏览器就可以向服务器发送http 请求
+* 服务器端接受到请求，根据路径参数，经过后端的一些处理之后返回相应的数据或页面
+* 浏览器拿到资源对页面进行渲染
+
+### http1.0的特点
+
+* 设置参数才能有长链接（keep-alive参数）
+* 不支持host域
+* 明文传输
+* 80端口
+
+### Http1.1的特点
+
+* HTTP1.1默认支持长连接
+* 节约带宽——服务器返回401时客户端不再发送请求
+* 支持host域
+* Https的特点
+* 需要到ca申请证书
+* 具有安全性的ssl加密传输协议，身份认证的网络协议 要比http协议安全
+* 443端口
+* [为什么更加安全](https://zhuanlan.zhihu.com/p/22142170)
+
+### Http2.0特点
+
+* 性能有很大提升
+* 多路复用
+* 二进制分帧——应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层，HTTP/2 通过让所有数据流共用同一个连接，可以更有效地使用 TCP 连接（减少慢启动）
+* 首部压缩
+* 服务端推送——服务端推送是一种在客户端请求之前发送数据的机制，考虑浏览器缓存
