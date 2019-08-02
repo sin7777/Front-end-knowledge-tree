@@ -1,4 +1,12 @@
-# 继承
+# 原型链与继承
+
+## 原型链
+
+当查找一个对象的属性或者方法时，JavaScript 会向上遍历原型链，直到找到给定名称的属性为止。
+
+通过原型链实现继承
+
+## 继承
 
 > OO语言都支持两种继承方式：接口继承和实现继承。接口继承只继承方法签名，实现继承继承实际的方法。
 >
@@ -24,7 +32,7 @@
 
 所以一般不单独使用原型链
 
-## 组合继承
+### 组合继承
 
 借用原型链和构造函数的优点，让不同的实例既可以拥有自己的属性，又可以共用方法。
 
@@ -55,7 +63,7 @@ child.sayName();       // child name: son
 child.doSomething();   // parent do something!
 ```
 
-## 寄生组合式继承
+### 寄生组合式继承
 
 ```JS
 function Parent(name) {
@@ -99,7 +107,7 @@ var child = new Child('son', 'father');
 child.sayName();     // child name: son
 ```
 
-## ES6继承
+### ES6继承
 
 ```JS
 class Parent {

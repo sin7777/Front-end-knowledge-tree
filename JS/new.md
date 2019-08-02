@@ -24,5 +24,5 @@ F.call(obj);
 
 1. 新生成了一个对象
 2. 链接到原型
-3. 绑定 this
+3. **绑定 this** (Constructor)
 4. 返回新对象

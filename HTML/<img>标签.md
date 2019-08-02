@@ -22,4 +22,14 @@ document.body.insertBefore(scriptElement,document.body.firstChild)
 
 ## height与width属性
 
-img的属性
+img 标签是可替换元素，类似于inline-block
+
+行内元素 + 不可替换元素  --> 不可设置宽高
+行内元素 + 可替换元素   --> 可设置宽高
+
+常见的可替换元素
+
+* img
+* imput
+* textarea
+* select
