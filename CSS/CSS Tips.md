@@ -138,3 +138,46 @@ inline是内联元素，block是块级元素，inline-block是内联块元素
 2. 水平位置（Horizontal position）：很明显你不能通过给父元素设置text-align:center让浮动元素居中。事实上定位类属性设置到父元素上，均不会影响父元素内浮动的元素。但是父元素内元素如果设置了display：inline-block，则对父元素设置一些定位属性会影响到子元素。（这还是因为浮动元素脱离文档流的关系）。
 3. 垂直对齐（Vertical alignment）：inline-block元素沿着默认的基线对齐。浮动元素紧贴顶部。你可以通过vertical属性设置这个默认基线，但对浮动元素这种方法就不行了。这也是我倾向于inline-block的主要原因。
 4. 空白（Whitespace）：inline-block包含html空白节点。如果你的html中一系列元素每个元素之间都换行了，当你对这些元素设置inline-block时，这些元素之间就会出现空白。而浮动元素会忽略空白节点，互相紧贴.
+
+## 实现图形 hover 触发以及离开之后动画
+
+transform 和 transition 是什么神仙！
+
+```CSS
+/* 实现Y轴收缩 */
+transform: translate(0px, -130px);
+/* 动画过渡，第二个是过渡时间，最后一个是延迟时间 */
+transition: all .2s ease-in 0s;
+```
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>离开时效果生硬</title>
+    <style type="text/css">
+        div{
+            width: 100px;
+            height: 100px;
+            border:1px solid;
+
+            margin:0px auto;
+            margin-top: 200px;
+
+            /* 在原本元素上再加一个transition */
+            transition: all 1s linear 2s;
+        }
+        div:hover{
+            transform: scale(2);
+            transition: all 1s linear;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+</body>
+</html>
+```
