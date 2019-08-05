@@ -1,5 +1,9 @@
 # Some Tips
 
+## CSS优先级
+
+!important > 行内样式>ID选择器 > 类选择器 > 标签 > 通配符 > 继承 > 浏览器默认属性
+
 ## 相对于元素自身的css属性
 
 * border-radius 的百分比

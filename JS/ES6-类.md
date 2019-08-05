@@ -15,7 +15,7 @@ Point === Point.prototype.constructor // true
 
 类的新方法可以添加在prototype对象上面。Object.assign方法可以很方便地一次向类添加多个方法。
 
-类的内部所有定义的方法，都是不可枚举的（non-enumerable）。而 ES5 的写法，定义在原型上的方法就是可枚举的（为什么设计成为不可枚举？）
+类的内部所有定义的方法，都是**不可枚举的**（non-enumerable）。而 ES5 的写法，定义在原型上的方法就是可枚举的（为什么设计成为不可枚举？）
 
 constructor方法默认返回实例对象（即this），完全可以指定返回另外一个对象
 
