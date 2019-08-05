@@ -105,4 +105,4 @@ Sec-WebSocket-Protocol: chat. //5
 
 ## webSocket 与 Socket 的区别
 
-* webSocket 是应用层协议，Socket 是端到端的一种通信，汉仪比较广泛
+* webSocket 是应用层协议，Socket 是端到端的一种通信，含义比较广泛
