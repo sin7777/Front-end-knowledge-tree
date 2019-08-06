@@ -104,3 +104,13 @@ if (!Object.is) {
   };
 }
 ```
+
+## Object.assign()
+
+[Object.assign(target, ...sources)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+
+* 浅拷贝
+* 合并具有相同属性的对象
+* 继承属性和不可枚举属性是不能拷贝的
+* 原始类型会被包装为对象
+* 异常会打断后续拷贝任务
