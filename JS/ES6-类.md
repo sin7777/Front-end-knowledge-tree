@@ -37,6 +37,8 @@ new Foo() instanceof Foo
 
 ## class 里面为什么经常看到使用箭头函数
 
+在 JavaScript 中，class 的方法默认不会绑定 this。
+
 类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
 
 ```JS

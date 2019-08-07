@@ -69,7 +69,7 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 * define-plugin：定义环境变量
 * commons-chunk-plugin：提取公共代码
-* uglifyjs-webpack-plugin：通过UglifyES压缩ES6代码
+* uglifyjs-webpack-plugin：通过UglifyES压缩ES6代码（tree shaking)
 * html-webpack-plugin 为html文件中引入的外部资源，可以生成创建html入口文件
 * mini-css-extract-plugin：分离css文件
 * clean-webpack-plugin：删除打包文件

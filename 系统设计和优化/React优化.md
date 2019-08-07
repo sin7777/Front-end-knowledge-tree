@@ -5,11 +5,41 @@
 * 使用 生产版本
 * 使用 webpack-bundle-analyzer 可视化 webpack 输出文件的大小
 * 使用动态 import，懒加载 React 组件
-* 使用 Tree Shaking & 教程 & Tree Shaking 优化
+* 使用 Tree Shaking 移除没有使用的代码
 * 使用 babel-plugin-import 优化业务组件的引入，实现按需加载
 * 使用 SplitChunksPlugin 拆分公共代码
 * 优化 Webpack 中的库
 * 分析 CSS 和 JS 代码覆盖率
+
+### 使用动态 import，懒加载 React 组件
+
+```JSX
+//使用之前
+import OtherComponent from './OtherComponent';
+//使用之后
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+```
+
+React.lazy 接受一个函数，这个函数需要动态调用 import()。它必须返回一个 Promise，该 Promise 需要 resolve 一个 defalut export 的 React 组件。
+
+### 基于路由的代码分割
+
+使用 React.lazy 和 React Router 这类的第三方库，来配置基于路由的代码分割。
+
+```JSX
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
 
 ## 代码逻辑优化
 

@@ -1,14 +1,14 @@
 # 关于HTML的其他知识
 
-## document.ready和window.onload的区别
+## document.ready 和 window.onload的区别
 
 页面加载完成有两种时间，ready比onload更先执行
 
-### ready事件
+* ready事件
 
 ready事件在DOM结构绘制完成之后就会执行，这样能确保就算有大量的媒体文件没加载出来，JS代码一样可以执行。
 
-### onload事件
+* onload事件
 
 load事件必须等到网页中所有内容全部加载完毕之后才被执行。如果一个网页中有大量的图片的话，则就会出现这种情况：网页文档已经呈现出来，但由于网页数据还没有完全加载完毕，导致load事件不能够即时被触发。
 
@@ -31,3 +31,19 @@ localstorge另一个浏览上下文里被添加、修改或删除时，它都会
 * link属于XHTML标签，除了加载CSS外，还能用于定义RSS, 定义rel连接属性等作用；而@import是CSS提供的，只能用于加载CSS;
 * 页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载;
 * link支持使用js控制DOM去改变样式，而@import不支持;
+
+## HTML 语义化的作用是什么
+
+* 保证即使在没有 CSS 的情况下仍然可以呈现页面
+* 代码可读性更高
+* 便于 SEO 搜索
+* 为`无障碍辅助功能网络应用`提供基础
+
+列举一些语义化的元素
+
+* header 元素
+* footer 元素
+* nav 元素 代表页面的导航链接区域。用于定义页面的主要导航部分
+* article 元素
+* section 元素
+* aside元素
