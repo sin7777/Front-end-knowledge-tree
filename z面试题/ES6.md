@@ -99,17 +99,65 @@ Promise是ES6引入的一个新的对象，他的主要作用是用来解决JS�
 
 Iterator是ES6中一个很重要概念，它并不是对象，也不是任何一种数据类型。因为ES6新增了Set、Map类型，他们和Array、Object类型很像，Array、Object都是可以遍历的，但是Set、Map都不能用for循环遍历。Iterator是为Set、Map、Array、Object新增一个统一的遍历API
 
-## for...in 和for...of有什么区别
+## for...in 和 for...of 有什么区别
 
 ES6规定，有所部署了载了Iterator接口的对象(可遍历对象)都可以通过for...of去遍历，而for..in仅仅可以遍历对象。
+
+for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
+
+```JS
+var arr = ['a', 'b', 'c', 'd'];
+for (let a in arr) {
+  console.log(a); // 0 1 2 3 键名
+}
+for (let a of arr) {
+  console.log(a); // a b c d 键值
+}
+```
 
 ## Generator函数是什么，有什么作用
 
 如果说JavaScript是ECMAScript标准的一种具体实现、Iterator遍历器是Iterator的具体实现，那么Generator函数可以说是Iterator接口的具体实现方式。
 
-执行Generator函数会返回一个遍历器对象，每一次Generator函数里面的yield都相当一次遍历器对象的next()方法，并且可以通过next(value)方法传入自定义的value,来改变Generator函数的行为。
+**执行Generator函数会返回一个遍历器对象**，每一次Generator函数里面的yield都相当一次遍历器对象的next()方法，并且可以通过next(value)方法传入自定义的value,来改变Generator函数的行为。
 
-Generator函数可以通过配合Thunk 函数更轻松更优雅的实现异步编程和控制流管理
+Generator函数可以通过配合 Thunk 函数更轻松更优雅的实现异步编程和控制流管理
+
+* 用 Generator 封装 Ajax
+
+```JS
+function* main() {
+  var result = yield request("http://some.url");
+  var resp = JSON.parse(result);
+    console.log(resp.value);
+}
+function request(url) {
+  makeAjaxCall(url, function(response){
+    it.next(response);
+  });
+}
+var it = main();
+it.next();
+```
+
+* 利用 Generator 函数，可以在任意对象上部署 Iterator 接口。
+
+```JS
+function* iterEntries(obj) {
+  let keys = Object.keys(obj);
+  for (let i=0; i < keys.length; i++) {
+    let key = keys[i];
+    yield [key, obj[key]];
+  }
+}
+let myObj = { foo: 3, bar: 7 };
+
+for (let [key, value] of iterEntries(myObj)) {
+  console.log(key, value);
+}
+// foo 3
+// bar 7
+```
 
 ## async函数是什么，有什么作用
 

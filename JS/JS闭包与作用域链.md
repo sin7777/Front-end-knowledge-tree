@@ -66,10 +66,42 @@ var global = 20
 fun(1,2)  //调用函数
 ```
 
-闭包的使用：
+## 闭包的使用场景
 
-* 封装对象的私有属性和方法：闭包通常用来创建内部变量，使得这些变量不能被外部随意修改，同时又可以通过指定的函数接口来操作
-* 保护函数内的变量安全：如迭代器、生成器（ES6）
+* 设置私有属性：闭包通常用来创建内部变量，使得这些变量不能被外部随意修改，同时又可以通过指定的函数接口来操作
+
+```JS
+function Fun(){
+  var name = 'tom';
+  
+  this.getName = function (){
+    return name;
+  }
+}
+var fun = new Fun();
+console.log(fun.name);//输出undefined,在外部无法直接访问name
+console.log(fun.getName());//可以通过特定方法去访问
+```
+
+* 函数防抖
+
+```JS
+function debounce(func,waitTime){
+  var timer = null
+  return function(...args){
+    if(timer){ //timer第一次执行后会保存在内存里 永远都是执行器 直到最后被触发
+     clearTimeout(timer)
+      timer = null
+    }
+    timer = setTimeout(function(){
+      //todo
+      func.apply(this, args)
+    },waitTime)
+  }
+}
+```
+
+* 保护函数内的变量安全：如迭代器(iterator)、生成器（ES6）
 * 在内存中维持变量：如果缓存数据、柯里化（高阶函数的降阶处理）
 
 ```JS
