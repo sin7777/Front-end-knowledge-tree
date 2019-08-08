@@ -8,12 +8,27 @@ ES6 中类就是构造函数，类中定义的所用方法，都是定义在类�
 class Point {
   // ...
 }
-
 typeof Point // "function"
 Point === Point.prototype.constructor // true
 ```
 
-类的新方法可以添加在prototype对象上面。Object.assign方法可以很方便地一次向类添加多个方法。
+类的新方法可以添加在 `prototype` 对象上面。Object.assign方法可以很方便地一次向类添加多个方法。
+
+```JS
+class Person {
+  speak () {
+    console.log('I am Person!')
+  }
+}
+//会被Babel转成：
+function Person(){}
+Object.defineProperty(Person.prototype,'speak',{
+  value: function () { 'I am Person!' },
+  enumerable: false,
+  configurable: true,
+  writable: true
+})
+```
 
 类的内部所有定义的方法，都是**不可枚举的**（non-enumerable）。而 ES5 的写法，定义在原型上的方法就是可枚举的（为什么设计成为不可枚举？）
 
