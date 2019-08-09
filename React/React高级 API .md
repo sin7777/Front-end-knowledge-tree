@@ -101,3 +101,68 @@ Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节�
 特点：事件冒泡
 
 事件冒泡和普通react子节点一样，是因为portal仍然存在于**React tree**中，而不用考虑其在真是DOM tree中的位置
+
+## 合成事件
+
+[官方文档](https://react.docschina.org/docs/events.html)
+
+如果DOM上绑定了过多的事件处理函数，整个页面响应以及内存占用可能都会受到影响。React为了避免这类DOM事件滥用，同时屏蔽底层不同浏览器之间的事件系统差异，实现了一个中间层——SyntheticEvent。
+
+**原理**：React并不是将click事件绑在该div的真实DOM上，而是在document处监听所有支持的事件，当事件发生并冒泡至document处时，React将事件内容封装并交由真正的处理函数运行。
+
+* 合成事件的监听器是**统一注册在document上**的，且仅有冒泡阶段。所以原生事件的监听器响应总是比合成事件的监听器早
+* 阻止原生事件的冒泡后，会阻止合成事件的监听器执行
+
+react事件机制分为**两个部分**：1、事件注册 2、事件分发
+
+事件注册部分，所有的事件都会注册到document上，拥有统一的回调函数dispatchEvent来执行事件分发
+
+事件分发部分，首先生成合成事件，注意同一种事件类型只能生成一个合成事件Event，如onclick这个类型的事件，dom上所有带有通过jsx绑定的onClick的回调函数都会按顺序（冒泡或者捕获）会放到Event._dispatchListeners 这个数组里，后面依次执行它。
+
+React使用对象池来管理合成事件对象的创建和销毁，这样减少了垃圾的生成和新对象内存的分配，大大提高了性能
+
+注意点：
+
+* 无法使用return false的方式来阻止事件的一些默认行为，必须得使用preventDefault。
+* 无法再异步的情况下调用事件（访问e）
+
+## refs 的作用
+
+下面是几个适合使用 refs 的情况：
+
+* 管理焦点，文本选择或媒体播放。
+* 触发强制动画。
+* 集成第三方 DOM 库。
+
+## PropTypes
+
+React 也内置了一些类型检查的功能。要在组件的 props 上进行类型检查，你只需配置特定的 propTypes 属性：
+
+```JSX
+import PropTypes from 'prop-types';
+
+class Greeting extends React.Component {
+  render() {
+    return (
+      <h1>Hello, {this.props.name}</h1>
+    );
+  }
+}
+
+Greeting.propTypes = {
+  name: PropTypes.string
+};
+```
+
+PropTypes 提供一系列验证器，可用于确保组件接收到的数据类型是有效的。在本例中, 我们使用了 PropTypes.string。当传入的 prop 值类型不正确时，JavaScript 控制台将会显示警告。出于性能方面的考虑，propTypes 仅在开发模式下进行检查。
+
+## SSR 服务器端渲染
+
+> 其实我好像没有怎么了解哇
+
+服务端渲染（以下简称 SSR ）是一个将通过前端框架构建的网站通过后端渲染模板的形式呈现的过程
+
+SSR 有以下两个好处：
+
+* 加快了首屏渲染时间
+* 完整的可索引的 HTML 页面（有利于 SEO)

@@ -2,7 +2,7 @@
 
 ## 代码体积优化
 
-* 使用 生产版本
+* 使用 生产版本（Production Build）：会移除脚本中不必要的警告和报错，减少文件体积
 * 使用 webpack-bundle-analyzer 可视化 webpack 输出文件的大小
 * 使用动态 import，懒加载 React 组件
 * 使用 Tree Shaking 移除没有使用的代码
