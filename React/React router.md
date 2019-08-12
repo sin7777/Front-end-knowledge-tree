@@ -72,7 +72,12 @@ match.path 可用于构造嵌套的 `<Route>`，而 match.url 可用于构造嵌
 
 将可能产生冲突的路由尽量往后放
 
-## V5
+## [V5](https://reacttraining.com/blog/react-router-v5/)
+
+* 更好地支持React 16
+* 消除所有警告 `<StrictMode>`
+* 新的上下文API（仅限内部
+* 全自动发布
 
 ## [原理](https://zhuanlan.zhihu.com/p/20381597)
 
