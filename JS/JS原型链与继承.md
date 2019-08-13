@@ -32,6 +32,57 @@
 
 所以一般不单独使用原型链
 
+### 原型继承
+
+继承方式是通过__proto__建立和子类之间的原型链，当子类的实例需要使用父类的属性和方法的时候，可以通过__proto__一级级向上找；
+
+```JS
+function Animal(name) {
+  this.name = name;
+}
+Animal.prototype.eat= function () {
+  console.log(this.name + '正在吃东西')
+};
+function Cat(furColor){
+   this.furColor = furColor ;
+};
+Cat.prototype = new Animal();  //继承的实现
+let tom = new Cat('black');
+console.log(tom)
+```
+
+缺点：
+
+1. 创建子类实例时，无法向父类构造函数传参。Animal 类中的 name 属性为undefined，说明没有被赋值。因为**无法调用父类的构造函数并传参**。
+2. Animal类的私有属性被所有实例共享。来自父类 Animal 中的私有属性 name 被放到了 Cat 类的原型，导致 name 属性被所有实例所共享。
+
+### 构造函数继承
+
+```JS
+function Animal(name) {
+  this.name = name;
+}
+Animal.prototype.eat= function () {
+  console.log(this.name + '正在吃东西')
+};
+function Cat(furColor){
+   Animal.call(this,'小花猫');  //这里这里！！
+   this.furColor = furColor ;
+};
+let tom = new Cat('black');   //实例，但是没有继承！
+console.log(tom);
+```
+
+这里解决了原型继承的两个问题，第一无法向构造函数传参的问题，第二Animal的私有属性被共享的问题。但是又产生了新的问题：
+
+1. 没有继承父类的原型，有些方法比如eat方法无法使用
+2. 实例并不是父类的实例，只是子类的实例，原因也是因为没有继承Animal的原型
+
+```JS
+console.log(tom instanceof Animal); // false
+console.log(tom instanceof Cat); // true
+```
+
 ### 组合继承
 
 借用原型链和构造函数的优点，让不同的实例既可以拥有自己的属性，又可以共用方法。
@@ -40,7 +91,6 @@
 function Parent(name) {
     this.name = name;
 }
-
 Parent.prototype.sayName = function() {
     console.log('parent name:', this.name);
 }
@@ -48,22 +98,30 @@ Parent.prototype.doSomething = function() {
     console.log('parent do something!');
 }
 function Child(name, parentName) {
-    Parent.call(this, parentName);
+    Parent.call(this, parentName);  //here {1}
     this.name = name;
 }
+Child.prototype = new Parent();  //here {2}
+Child.prototype.constructor = Child;  //here {3}
 
-Child.prototype = new Parent();
-Child.prototype.constructor = Child;
 Child.prototype.sayName = function() {
     console.log('child name:', this.name);
 }
-
 var child = new Child('son');
 child.sayName();       // child name: son
 child.doSomething();   // parent do something!
 ```
 
+组合继承还有一个要注意的地方：
+在代码 {3} 处，将子类原型的 constructor 属性指向子类的构造函数。因为如果不这么做，子类的原型是父类的一个实例，所以子类原型的 constructor 属性就丢失了，他会顺着原型链继续往上找，于是就找到了父类的 constructor 所以它指向的其实是父类。
+
+这种继承方式解决了上两种方式的缺点，不会出现共享引用类型的问题，同时父类原型中的方法也被继承了下来。
+
+缺点：重复创建属性，在创建 Child 实例的时候，调用 Parent 的构造函数，又会在新的对象上创建属性 name，于是，这个属性就屏蔽了原型中的同名属性。
+
 ### 寄生组合式继承
+
+基本思路就是：不必为了指定子类型的原型而调用父类的够着函数，我们需要的无非就是父类原型的一个副本而已。本质上就是复制出父类的一个副本，然后再将结果指定给子类型的原型。
 
 ```JS
 function Parent(name) {
@@ -78,7 +136,7 @@ function Child(name, parentName) {
     this.name = name;
 }
 //////////////////////////////////////////////////
-//原型继承
+//方式一
 function create(proto) {
     function F(){}
     F.prototype = proto;
@@ -87,7 +145,7 @@ function create(proto) {
 Child.prototype = create(Parent.prototype);
 Child.prototype.constructor = Child;
 
-//组合原型继承
+//方式二
 function inheritPrototype(Parent, Child) {
     Child.prototype = Object.create(Parent.prototype);//修改
     Child.prototype.constructor = Child;
@@ -97,12 +155,9 @@ inheritPrototype(Parent, Child);
 
 Child.prototype.sayName = function() {
     console.log('child name:', this.name);
-}
 
 var parent = new Parent('father');
-parent.sayName();    // parent name: father
-
-
+parent.sayName();    // parent name: fathe
 var child = new Child('son', 'father');
 child.sayName();     // child name: son
 ```
@@ -131,7 +186,6 @@ class Child extends Parent {
     console.log('child name:', this.name);
     }
 }
-
 const child = new Child('son', 'father');
 child.sayName();            // child name: son
 child.doSomething();        // parent do something!
