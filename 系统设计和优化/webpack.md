@@ -65,15 +65,23 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 * source-map-loader：加载额外的 Source Map 文件，以方便断点调试
 * image-loader：加载并且压缩图片文件
 
+项目中使用的loader：
+
+babel-loader、css-loader、style-loader、postcss-loader、eslint-loader、file-loader
+
 ## 常见的plugin
 
 * define-plugin：定义环境变量
 * commons-chunk-plugin：提取公共代码
-* uglifyjs-webpack-plugin：通过UglifyES压缩ES6代码（tree shaking)
+* uglifyjs-webpack-plugin：通过 UglifyES 压缩 ES6 代码（tree shaking)
 * html-webpack-plugin 为html文件中引入的外部资源，可以生成创建html入口文件
 * mini-css-extract-plugin：分离css文件
 * clean-webpack-plugin：删除打包文件
 * happypack：实现多线程加速编译
+
+项目中使用的plugin
+
+html-webpack-plugin、uglifyjs-webpack-plugin（还有其他的没有看是啥意思呜呜呜）有：extract-text-webpack-plugin、webpack-manifest-plugin、sw-precache-webpack-plugin、ModuleScopePlugin
 
 ## webpack的热更新是如何做到的？说明其原理
 
