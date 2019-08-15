@@ -26,11 +26,18 @@ WebSocket、SharedWorker；
 
 localstorge另一个浏览上下文里被添加、修改或删除时，它都会触发一个事件，我们通过监听事件，控制它的值来进行页面信息通信；
 
-## link&import的区别
+## 页面引入 CSS 的方式
 
-* link属于XHTML标签，除了加载CSS外，还能用于定义RSS, 定义rel连接属性等作用；而@import是CSS提供的，只能用于加载CSS;
-* 页面被加载的时，link会同时被加载，而@import引用的CSS会等到页面被加载完再加载;
-* link支持使用js控制DOM去改变样式，而@import不支持;
+* 行内式：行内设置 CSS
+* 内嵌式：通过 `<style>` 标签设置
+* 导入式：@import 导入
+* 链接式：link `<link href="mystyle.css" rel="stylesheet" type="text/css"/>`导入
+
+## link & import的区别
+
+* link 属于 XHTML 标签，除了加载 CSS 外，还能用于定义 RSS, 定义 rel 连接属性等作用；而 @import 是CSS提供的，只能用于加载 CSS;
+* 页面被加载的时，link会同时被加载，而 @import 引用的 CSS 会等到页面被加载完再加载;
+* link支持使用 js 控制 DOM 去改变样式，而 @import 不支持;
 
 ## HTML 语义化的作用是什么
 

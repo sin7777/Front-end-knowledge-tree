@@ -57,8 +57,8 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 ## 常见的Loader
 
 * babel-loader：把 ES6/JSX 转换成 ES5
-* css-loader：加载 CSS，支持模块化、压缩、文件导入等特性，解释@import url()
-* style-loader：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS。
+* css-loader：用于处理 css 文件，使得能在 js 文件中引入使用，加载 CSS，支持模块化、压缩、文件导入等特性，解释@import url()
+* style-loader：用于将 css 文件注入到 index.html 中的 `<style>` 标签上；
 * eslint-loader：通过 ESLint 检查 JavaScript 代码
 * file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件
 * url-loader：和 file-loader 类似，但是能在文件很小的情况下以 base64 的方式把文件内容注入到代码中去
