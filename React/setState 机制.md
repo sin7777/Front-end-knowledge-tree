@@ -12,6 +12,25 @@ this.state只是一个对象，单纯去修改一个对象的值是没有意义�
 
 setState通过引发一次组件的更新过程来引发重新绘制
 
+## setState的实现
+
+```JS
+ReactComponent.prototype.setState = function (partialState, callback) {
+  this.updater.enqueueSetState(this, partialState);
+  if (callback) {
+    this.updater.enqueueCallback(this, callback);
+  }
+};
+```
+
+在React中每个组件有拥有一个this.updater，是用来驱动state更新的工具对象。当我们在组件中的构造函数中调用super时实质调用的就是函数ReactComponent
+
+## setState更新的过程
+
+如果处于批量更新的过程中(即isBatchingUpdates为true)，则直接将组件传入dirtyComponents。如果不是的话，开启批量更新。
+
+传入更新的组件传入dirtyComponents之后会发生什么？
+
 ## setState是异步的吗
 
 * setState 只在**合成事件**和**生命周期**中是“异步”的，在原生事件和 setTimeout 中都是同步的。

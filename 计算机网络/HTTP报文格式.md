@@ -35,7 +35,7 @@ HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和
 * **PATCH**
   * 是对 PUT 方法的补充，用来对已知资源进行局部更新。
 * **OPTIONS**
-  * 允许客户端查看服务器的性能。
+  * 允许客户端查看服务器的性能，"预检"请求用的请求方法是`OPTIONS`
 * **TRACE**
   * 回显服务器收到的请求，主要用于测试或诊断。
 * **CONNECT**

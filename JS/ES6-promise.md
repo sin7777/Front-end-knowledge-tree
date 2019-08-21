@@ -1,43 +1,49 @@
-# promise相应的操作
-
-> 要把常用的方法写上哇，要是面试让你现场写你就凉了哇
+# promise 相应的操作
 
 目录
 
-* [Promise的理解](#Promise的理解)
-* [Promis的常见API](#Promis的常见API)
-* [常见异步面试题](#常见异步面试题)
-* [模拟实现promise](#模拟实现promise)
-* [Promise实现ajax](#Promise实现ajax)
+- [Promise 的理解](#Promise的理解)
+- [Promis 的常见 API](#Promis的常见API)
+- [常见异步面试题](#常见异步面试题)
+- [模拟实现 promise](#模拟实现promise)
+- [Promise 实现 ajax](#Promise实现ajax)
 
-## Promise的理解
+## 异步编程的发展过程
+
+事件回调 -> 事件监听 -> Promise -> async/await
+
+## Promise 的理解
 
 Promise 是异步编程的一种解决方案，解决了回调地狱的问题，比传统的异步解决方案【回调函数】和【事件】更合理、更强大。
 
-## Promis的常见API
+## Promis 的常见 API
 
-* Promise.resolve(value)
-* Promise.reject
-* Promise.prototype.then
-* Promise.prototype.catch
-* Promise.race
-* Promise.all
+- Promise.resolve(value)
+- Promise.reject
+- Promise.prototype.then
+- Promise.prototype.catch
+- Promise.race
+- Promise.all
 
 一个 Promise 对象有三个状态，并且状态一旦改变，便不能再被更改为其他状态。
 
-* pending，异步任务正在进行。
-* resolved (也可以叫fulfilled)，异步任务执行成功。
-* rejected，异步任务执行失败。
+- pending，异步任务正在进行。
+- resolved (也可以叫 fulfilled)，异步任务执行成功。
+- rejected，异步任务执行失败。
 
 知识点：
 
-* Promise捕获错误与 try catch 等同
-* Promise 拥有状态变化
-* Promise 方法中的回调是异步的
-* Promise 方法每次都返回一个新的Promise
-* Promise 会存储返回值
+- Promise 捕获错误与 try catch 等同
+- Promise 拥有状态变化
+- Promise 方法中的回调是异步的
+- Promise 方法每次都返回一个新的 Promise
+- Promise 会存储返回值
 
 ## 常见异步面试题
+
+[异步笔试题](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7)
+
+[Eventloop 不可怕，可怕的是遇上 Promise](https://juejin.im/post/5c9a43175188252d876e5903)
 
 Promise 遇到 resolve 之后才会把 .then 放入微任务队列当中
 
@@ -57,7 +63,84 @@ async function test() {
 test()
 
 //输出： finish  object
-//因为 await 会等待 sleep 函数 resolve ，所以即使后面是同步代码，也不会先去执行同步代码再来执行异步代码。
+//因为 sleep 函数返回了一个 Promise，之后的代码是挂载在这个 Promise 的 .then 之后，所以会等待 Promise resolve
+
+function sleep() {
+  new Promise(resolve => {
+    setTimeout(() => {
+      console.log('finish')
+      resolve("sleep");
+    }, 2000);
+  });
+}
+async function test() {
+  let value = await sleep();
+  console.log("object");
+}
+test()
+//输出： object  finish
+```
+
+```JS
+async function async1() {
+    console.log('async1 start');
+    await async2();
+    setTimeout(function() {
+        console.log('setTimeout1')
+    },0)
+    console.log("async1 end")
+}
+async function async2() {
+  return new Promise(resolve => {
+    setTimeout(function() {
+      console.log('setTimeout2')
+      resolve("async2"); //如果没有resolve则async1不会执行await下面的语句，它会等到await的异步任务resolve
+    },1000)
+  })
+}
+//async1 start
+//setTimeout2
+//async1 end
+//setTimeout1
+
+
+async function async1() {
+    console.log('async1 start');
+    await async2();
+    setTimeout(function() {
+        console.log('setTimeout1')
+    },0)
+}
+async function async2() {
+  setTimeout(function() {
+    console.log('setTimeout2')
+  },0)
+}
+console.log('script start');
+
+setTimeout(function() {
+    console.log('setTimeout3');
+}, 0)
+async1();
+
+new Promise(function(resolve) {
+    console.log('promise1');
+    resolve();
+}).then(function() {
+    console.log('promise2');
+});
+console.log('script end');
+
+/*
+script start
+async1 start
+promise1
+script end
+promise2
+setTimeout3
+setTimeout2
+setTimeout1
+*/
 ```
 
 ```JS
@@ -74,14 +157,14 @@ function yellow() {
 
 var light = function (timmer, cb) {
     return new Promise(function (resolve, reject) {
-        setTimeout(function () {
+        setTimeout(function() {
             cb();
             resolve();
         }, timmer);
     });
 };
 
-var step = function () {
+var step = function() {
     Promise.resolve().then(function () {
         return light(3000, red);
     }).then(function () {
@@ -92,7 +175,6 @@ var step = function () {
         step();
     });
 }
-
 step();
 
 //阿里面试题，实现函数mergePromise，是异步顺序输出
@@ -120,23 +202,23 @@ const ajax3 = () => timeout(2000).then(() => {
     return 3;
 })
 const mergePromise = ajaxArray => {
-    /// 保存数组中的函数执行后的结果
-var data = []
-// Promise.resolve方法调用时不带参数，直接返回一个resolved状态的 Promise 对象。
-var sequence = Promise.resolve();
-ajaxArray.forEach(function (item) {
-    // 第一次的 then 方法用来执行数组中的每个函数，
-    // 第二次的 then 方法接受数组中的函数执行后返回的结果，
-    // 并把结果添加到 data 中，然后把 data 返回。
-    // 这里对 sequence 的重新赋值，其实是相当于延长了 Promise 链
-    sequence = sequence.then(item).then(function (res) {
+  /// 保存数组中的函数执行后的结果
+  var data = []
+  // Promise.resolve方法调用时不带参数，直接返回一个resolved状态的 Promise 对象。
+  var sequence = Promise.resolve();
+  ajaxArray.forEach(function (item) {
+  // 第一次的 then 方法用来执行数组中的每个函数，
+  // 第二次的 then 方法接受数组中的函数执行后返回的结果，
+  // 并把结果添加到 data 中，然后把 data 返回。
+  // 这里对 sequence 的重新赋值，其实是相当于延长了 Promise 链
+    sequence = sequence.then(item).then(function(res) {
         data.push(res);
         return data;
     });
-}
-// 遍历结束后，返回一个 Promise，也就是 sequence， 他的 [[PromiseValue]] 值就是 data，
-// 而 data（保存数组中的函数执行后的结果） 也会作为参数，传入下次调用的 then 方法中。
-return sequence
+  }
+  // 遍历结束后，返回一个 Promise，也就是 sequence， 他的 [[PromiseValue]] 值就是 data，
+  // 而 data（保存数组中的函数执行后的结果） 也会作为参数，传入下次调用的 then 方法中。
+  return sequence
 };
 mergePromise([ajax1, ajax2, ajax3]).then(data => {
     console.log('done');
@@ -146,38 +228,36 @@ mergePromise([ajax1, ajax2, ajax3]).then(data => {
 /////////////// 方法每次都返回一个新的Promise
 var p1 = new Promise(function(resolve, reject) {
   reject(1);
-})
-  .then(
-    res => {
-      console.log(res);
-      return 2;
-    },
-    err => {
-      console.log(err);
-      return 3;
-    }
-  )
-  .catch(err => {
-    console.log(err);
-    return 4;
-  })
-  .finally(res => {
+}).then(
+  res => {
     console.log(res);
-    return 5;
-  })
-  .then(
-    res => console.log(res),
-    err => console.log(err));
+    return 2;
+  },
+  err => {
+    console.log(err); //输出
+    return 3;
+  }
+).catch(err => {
+  console.log(err);
+  return 4;
+}).finally(res => {
+  console.log(res);  //输出
+  return 5;
+}).then(
+  res => console.log(res),  //输出
+  err => console.log(err)
+);
 //1,undefined,3
+//finally方法的回调函数不接受任何参数
 ```
 
-* [加载图片，每次3个](https://segmentfault.com/a/1190000016848192)
-* [面试官眼中的Promise,Promise方法每个都会返回一个Promise](https://juejin.im/post/5c233a8ee51d450d5a01b712#heading-3)
-* [promise-polyfill](https://github.com/taylorhakes/promise-polyfill/blob/master/src/index.js)
+- [加载图片，每次 3 个](https://segmentfault.com/a/1190000016848192)
+- [面试官眼中的 Promise,Promise 方法每个都会返回一个 Promise](https://juejin.im/post/5c233a8ee51d450d5a01b712#heading-3)
+- [promise-polyfill](https://github.com/taylorhakes/promise-polyfill/blob/master/src/index.js)
 
-## 模拟实现promise
+## 模拟实现 promise
 
-> [模拟实现promise](https://zhuanlan.zhihu.com/p/21834559)
+> [模拟实现 promise](https://zhuanlan.zhihu.com/p/21834559)
 
 先写一个简单版本的
 
@@ -304,7 +384,7 @@ Promise.prototype.catch = function(onRejected) {
 
 ```
 
-## Promise实现ajax
+## Promise 实现 ajax
 
 ```JS
 const $ = (function() {
@@ -343,4 +423,98 @@ $.ajax("/posts.json").then(
     console.error("出错了", error);
   }
 );
+```
+
+## Promise 与 setTimeOut
+
+```JS
+new Promise(function(resolve) {
+  console.log("a");
+  for (var i = 0; i < 10000; i++) {
+    if (i === 9999) {
+      resolve();
+    }
+  }
+  console.log("b");
+}).then(function() {
+  console.log("c");
+});
+//a,b,c
+
+new Promise(function(resolve) {
+  console.log("a");
+  setTimeout(function() {
+    console.log("d");
+    resolve();
+  }, 2000);
+  console.log("b");
+}).then(function() {
+  console.log("c");
+});
+//a,b,d,c
+
+new Promise(function(resolve) {
+  return new Promise(() => {
+    console.log("a");
+    setTimeout(() => {
+      console.log("b");
+      resolve("c");
+    }, 2000);
+  });
+}).then(res => {
+  console.log(res);
+});
+//a,b,c
+
+new Promise(function(resolve) {
+  return new Promise(resolve => {
+    console.log("a");
+    setTimeout(() => {
+      console.log("b");
+      resolve("c");
+    }, 2000);
+  }).then(res => {
+    console.log(res);
+    resolve("m");
+  });
+}).then(res => {
+  console.log(res);
+});
+//a, b, c, m
+
+new Promise(function(resolve) {
+  resolve("m");
+  return new Promise(resolve => {
+    console.log("a");
+    setTimeout(() => {
+      console.log("b");
+      resolve("c");
+    }, 2000);
+  }).then(res => {
+    console.log(res);
+  });
+}).then(res => {
+  console.log(res);
+});
+//a, m, b, c
+
+new Promise(function(resolve) {
+  new Promise(resolve => {
+    console.log("a");
+    setTimeout(() => {
+      console.log("b");
+      resolve("c");
+    }, 2000);
+  }).then(res => {
+    console.log(res);
+  });
+  setTimeout(() => {
+    console.log("d");
+    resolve("e");
+  }, 2000);
+}).then(res => {
+  console.log(res);
+});
+//a,b,c,d,e
+
 ```

@@ -16,3 +16,5 @@ Redux的主要作用是管理程序状态的。
 * store: 存放state
 * action：视图触发事件
 * reducer：store的变化规则
+
+![rudex](https://user-images.githubusercontent.com/20694238/55489471-8d5e5a00-5664-11e9-8ec9-25a13f9bdeae.png)

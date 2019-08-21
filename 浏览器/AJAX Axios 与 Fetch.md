@@ -1,6 +1,6 @@
 # AJAX Axios 与 Fecth
 
-axios,fetch请求后都支持Promise对象API,ajax只能用回调函数
+axios,fetch请求后都支持 Promise 对象 API，ajax 只能用回调函数
 
 ```JS
 //使用XHR发送请求：
@@ -16,7 +16,7 @@ xhr.onerror = function() {
 xhr.send(); //发送请求
 ```
 
-## AJAX
+## [AJAX](https://juejin.im/post/58c883ecb123db005311861a)
 
 > [讲解](https://zhuanlan.zhihu.com/p/38067984)
 
@@ -26,9 +26,51 @@ Ajax（Asynchronous JavaScript and XML的缩写）是一种异步请求数据的
 
 ![AJAX](https://pic3.zhimg.com/80/v2-75bf034c1cb2e15781d809372646784a_hd.jpg)
 
+通常, 一个xhr实例对象拥有 10 个普通属性和 9 个方法。
+
+### readyState
+
+**只读属性**, readyState属性记录了ajax调用过程中所有可能的状态. 它的取值简单明了, 如下:
+
+* 0 (未初始化)，xhr.UNSENT，请求已建立, 但未初始化(此时未调用open方法)
+* 1 (初始化)，xhr.OPENED，请求已建立, 但未发送 (已调用open方法, 但未调用send方法)
+* 2 (发送数据)，xhr.HEADERS_RECEIVED，请求已发送 (send方法已调用, 已收到响应头)
+* 3 (数据传送中)，xhr.LOADING，请求处理中, 因响应内容不全, 这时通过responseBody和responseText获取可能会出现错误
+* 4 (完成)，xhr.DONE，数据接收完毕, 此时可以通过通过responseBody和responseText获取完整的响应数据
+
+### onreadystatechange
+
+onreadystatechange事件回调方法在readystate状态改变时触发, 在一个收到响应的ajax请求周期中, onreadystatechange 方法会被触发4次.
+
+```JS
+xhr.onreadystatechange = function(e){
+  //TODO ...
+}
+```
+
+### status
+
+只读属性, status表示http请求的状态, 初始值为0. 如果服务器没有显式地指定状态码, 那么status将被设置为默认值, 即200.
+
+### statusText
+
+只读属性, statusText表示服务器的响应状态信息, 它是一个 UTF-16 的字符串, 请求成功且status==20X时, 返回大写的 OK . 请求失败时返回空字符串. 其他情况下返回相应的状态描述. 比如: 301的 Moved Permanently , 302的 Found , 303的 See Other , 307 的 Temporary Redirect , 400的 Bad Request , 401的 Unauthorized 等等.
+
+### onload
+
+onload事件回调方法在ajax请求成功后触发, 触发时机在 readyState==4 状态之后.
+
+### abort
+
+abort方法用于取消ajax请求, 取消后, readyState 状态将被设置为 0 (UNSENT). 如下, 调用abort 方法后, 请求将被取消.
+
+### onerror
+
+onerror方法用于在ajax请求出错后执行. 通常只在网络出现问题时或者ERR_CONNECTION_RESET时触发(如果请求返回的是407状态码, chrome下也会触发onerror).
+
 ## Axios
 
-Axios本质上也是对原生XHR的封装，只不过它是Promise的实现版本，符合最新的ES规范
+Axios本质上也是对原生 XHR 的封装，只不过它是 Promise 的实现版本，符合最新的ES规范
 
 特点:
 
@@ -50,10 +92,10 @@ Fetch API优点:
 
 Fetch 的问题
 
-1. Fetch接收到错误状态码『404, 500 ...』时候, 返回的Promise状态为 resolve『完成状态』，只有在网络故障或者请求被阻止『跨域』才是reject『拒绝状态』
-2. fetch默认不会带cookie，需要设置credentials才能从服务端发送或接收任何 cookies
-3. fetch不支持abort，不支持超时控制，使用setTimeout及Promise.reject的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费
-4. fetch没有办法原生监测请求的进度，而XHR可以
+1. Fetch接收到错误状态码『404, 500 ...』时候, 返回的 Promise 状态为 resolve『完成状态』，只有在网络故障或者请求被阻止『跨域』才是 reject『拒绝状态』
+2. fetch 默认不会带 cookie，需要设置 credentials 才能从服务端发送或接收任何 cookies
+3. fetch 不支持 abort，不支持超时控制，使用 setTimeout 及Promise.reject 的实现的超时控制并不能阻止请求过程继续在后台运行，造成了流量的浪费
+4. fetch 没有办法原生监测请求的进度，而 XHR 可以
 
 ```JS
 fetch(url).then(

@@ -48,9 +48,9 @@ new Foo() instanceof Foo
 
 原型方法 与 实例属性
 
-类不存在变量提升（hoist），这一点与 ES5 完全不同。
+类的声明不存在变量提升（hoist），这一点与 ES5 完全不同。
 
-## class 里面为什么经常看到使用箭头函数
+## Class 里面为什么经常看到使用箭头函数
 
 在 JavaScript 中，class 的方法默认不会绑定 this。
 
@@ -72,7 +72,7 @@ const { printName } = logger;
 printName(); // TypeError: Cannot read property 'print' of undefined
 ```
 
-上面代码中，printName方法中的this，默认指向Logger类的实例。但是，如果将这个方法提取出来单独使用，this会指向该方法运行时所在的环境（由于 class 内部是严格模式，所以 this 实际指向的是undefined），从而导致找不到print方法而报错。
+上面代码中，printName方法中的this，默认指向Logger类的实例。但是，如果将这个方法提取出来单独使用，this会指向该方法运行时所在的环境（由于 class 内部是严格模式，所以 this 实际指向的是undefined，从而导致找不到print方法而报错。
 
 解决方法：
 
@@ -179,7 +179,7 @@ ES6 明确规定，Class 内部只有静态方法，没有静态属性。
 
 ## 类的继承
 
-子类**必须在constructor方法中调用super方法**，否则新建实例时会报错。这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。**如果不调用super方法，子类就得不到this对象。**
+子类**必须在 constructor 方法中调用 super 方法**，否则新建实例时会报错。这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。**如果不调用 super 方法，子类就得不到 this 对象。**
 
 ES5 的继承，实质是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）。
 
@@ -196,10 +196,10 @@ Object.getPrototypeOf(ColorPoint) === Point
 
 ## super 关键字
 
-super这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。
+super 这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。
 
 * super()
-  * 相当于 A.prototype.constructor.call(this)，代表调用父类的构造函数
+  * 相当于 Parent.prototype.constructor.call(this)，代表调用父类的构造函数
 * super.something
   * super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
 
@@ -210,3 +210,40 @@ super这个关键字，既可以当作函数使用，也可以当作对象使用
 ## 原生构造函数的继承
 
 ES5 无法继承原生的构造函数，因为其`是先创造子类的实例对象this，然后再将父类的方法添加到this上面（Parent.apply(this)）`，所以不能拿到一些方法，而ES6 因其`先将父类实例对象的属性和方法，加到this上面（所以必须先调用super方法），然后再用子类的构造函数修改this`可以继承原生的构造函数
+
+## extends实现原理
+
+```JS
+//原型连接
+Child.prototype = Object.create(Parent.prototype)
+// Child继承Parent的静态属性
+Object.setPrototypeOf(Child, Parent)
+//绑定this
+Parent.call(this)
+```
+
+## ES6类继承与构造器原型继承（ES5）区别
+
+>[参考](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/20)
+
+* class 声明会提升，但不会初始化赋值。Foo 进入暂时性死区，类似于 let、const 声明变量。
+* class 声明内部会启用严格模式。
+* class 的所有方法（包括静态方法和实例方法）都是不可枚举的。
+* class 的所有方法（包括静态方法和实例方法）都没有原型对象 prototype，所以也没有[[construct]]，不能使用 new 来调用。
+
+```JS
+class Foo {
+  constructor() {
+    this.foo = 42;
+  }
+  print() {
+    console.log(this.foo);
+  }
+}
+const foo = new Foo();
+const fooPrint = new foo.print(); //// TypeError: foo.print is not a constructor
+foo.print.__proto__ === Function.prototype //true
+```
+
+* 必须使用 new 调用 class。
+* class 内部无法重写类名。
