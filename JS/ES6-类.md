@@ -247,3 +247,40 @@ foo.print.__proto__ === Function.prototype //true
 
 * 必须使用 new 调用 class。
 * class 内部无法重写类名。
+
+## 子类怎么调用父类的同名方法
+
+在 ES5 中
+
+```JS
+let person = {
+    sayHello () {
+        return 'Hello'
+    }
+}
+let friend = {
+    sayHello () {
+        return Object.getPrototypeOf(this).sayHello.call(this)
+    }
+}
+
+Object.setPrototypeOf(friend, person)
+console.log(friend.sayHello()) // Hello
+```
+
+在 ES6 中，调用 super.方法
+
+```JS
+let person = {
+    sayHello () {
+        return 'Hello'
+    }
+}
+let friend = {
+    sayHello () {
+        return super.sayHello()
+    }
+}
+Object.setPrototypeOf(friend, person)
+console.log(friend.sayHello()) // Hello
+```
