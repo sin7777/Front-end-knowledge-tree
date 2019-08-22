@@ -220,3 +220,7 @@ console.log(Foo.prototype instanceof BFoo);//true
 ![案例1](../images/原型链1.jpg)
 ![案例2](../images/原型链2.jpg)
 ![案例3](../images/原型链3.jpg)
+
+## 理解构造函数和原型对象
+
+> [来源](https://juejin.im/post/59ab6c16f265da2476425745)
