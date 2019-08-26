@@ -47,10 +47,10 @@ Array.isArray(tmp);
 模拟实现 instanceof()
 
 ```JS
-//判断B是不是A的实例
-function instance_of(A, B){
-    let L = A.prototype,
-        R = B.__proto__;
+//判断 target 是不是 origin 的实例
+function instance_of(target, origin){
+    let L = origin.prototype,
+        R = target.__proto__;
     while(ture){
         if(R = null){
             return false
