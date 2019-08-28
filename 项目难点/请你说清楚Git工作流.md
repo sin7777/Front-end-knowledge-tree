@@ -277,3 +277,13 @@ git rebase 的 commit id 修改了
 当你将它 reset 回 HEAD~（HEAD 的父结点）时，其实就是把该分支移动回原来的位置，而不会改变索引和工作目录。
 
 `git reset --hard commit id`, 移动 HEAD，更新索引，更新工作目录。三件事情，全做了。前两件事情，已经说了。更新工作目录，让工作目录看起来像索引。从效果上看，就是撤销一切修改，本地文件状态同 commit id 的那时候。
+
+## Git 权限管理
+
+Git 中的五种角色：
+
+* Owner     Git 系统管理员
+* Master    Git 项目管理员
+* Developer    Git 项目开发人员
+* Reporter     Git 项目测试人员
+* Guest     访客

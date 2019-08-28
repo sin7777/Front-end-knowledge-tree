@@ -54,3 +54,9 @@ localstorge另一个浏览上下文里被添加、修改或删除时，它都会
 * article 元素
 * section 元素
 * aside元素
+
+## getElementsBy 和 querySelectorAll 的区别
+
+querySelectorAll 方法接收的参数是一个 CSS 选择符。而 getElementsBy 系列接收的参数只能是单一的className、tagName 和 name。
+
+querySelectorAll 返回的是一个 **Static** Node List，而 getElementsBy 系列的返回的是一个 **Live** Node List。
