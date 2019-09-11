@@ -60,3 +60,25 @@ localstorge另一个浏览上下文里被添加、修改或删除时，它都会
 querySelectorAll 方法接收的参数是一个 CSS 选择符。而 getElementsBy 系列接收的参数只能是单一的className、tagName 和 name。
 
 querySelectorAll 返回的是一个 **Static** Node List，而 getElementsBy 系列的返回的是一个 **Live** Node List。
+
+## 严格模式和混杂模式
+
+<!DOCTYPE> 声明位于文档中的最前面的位置，处于 `<html>` 标签之前。此标签可告知浏览器文档使用哪种 HTML 或 XHTML 规范。
+
+1. 所谓的**标准模式**是指，浏览器按 W3C 标准解析执行代码；**怪异模式**则是使用浏览器自己的方式解析执行代码，因为不同浏览器解析执行的方式不一样，所以我们称之为怪异模式。
+2. 浏览器解析时到底使用标准模式还是怪异模式，与你网页中的 DTD 声明直接相关， DTD 声明定义了标准文档的类型（标准模式解析）文档类型，会使浏览器使用相应的方式加载网页并显示，忽略 DTD 声明 , 将使网页进入怪异模式。
+
+严格模式和混杂模式的差异
+
+* 盒模型
+  * 标准模式采用 `content-box`
+  * 怪异模式采用 `border-box`
+* 可以设置行内元素的高宽
+  * 怪异模式的行内元素可以设置宽高
+* 可设置百分比的高度
+  * 在standards模式下，一个元素的高度是由其包含的内容来决定的，如果父元素没有设置高度，子元素设置一个百分比的高度是无效的
+* 用margin:0 auto设置水平居中在IE下会失效
+  * 使用margin:0 auto在standards模式下可以使元素水平居中，但在quirks模式下却会失效,quirk模式下的解决办法，用text-align属性
+* quirk模式下设置图片的padding会失效
+* quirk模式下Table中的字体属性不能继承上层的设置
+* quirk模式下white-space:pre会失效

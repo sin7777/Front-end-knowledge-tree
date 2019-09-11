@@ -6,7 +6,7 @@ this 指向函数**运行**时所在的环境对象
 
 可以改变this指向：
 
-* new（new不太好说，别回答这个）
+* new()
 * call()
 * aplly()
 * bind()
