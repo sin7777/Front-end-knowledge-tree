@@ -178,3 +178,5 @@ for……of 遍历的特点
   * 某个prototype对象和某个实例之间的关系 `Cat.prototype.isPrototypeOf(cat1)` true or flase
 * hasOwnProperty
   * 判断某一个属性到底是本地属性，还是继承自prototype的属性 `cat1.hasOwnProperty("name")` true or flase
+* getOwnPropertyDescriptor()
+  * Object.getOwnPropertyDescriptor(targetObj, attrName)方法来查看对象的某个属性是否可枚举)。

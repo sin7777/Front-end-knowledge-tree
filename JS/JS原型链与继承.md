@@ -137,7 +137,7 @@ function Child(name, parentName) {
 }
 //////////////////////////////////////////////////
 //方式一
-function create(proto) {
+function create(proto) {  //等同于 Object.creat 的方法
     function F(){}
     F.prototype = proto;
     return new F();
