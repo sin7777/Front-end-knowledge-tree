@@ -88,4 +88,3 @@ HTTP 幂等方法，是指无论调用这个 url 多少次，都会**返回相�
 GET、PUT 和 DELETE都是幂等的
 
 ## PUT 请求和 POST 请求的区别
-
