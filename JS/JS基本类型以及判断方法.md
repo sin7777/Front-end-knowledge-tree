@@ -27,7 +27,8 @@ null 在做数学运算时被转换成为 0， undefined 被转换成为 NaN
 * typeof()
 * instanceof()
 * Object.prototype.toString()
-* isPrototypeOf()
+* isPrototypeOf()    (这个可以先不说)
+  * 用于测试一个对象是否存在于另一个对象的原型链上
 
 使用方法
 
@@ -39,6 +40,9 @@ Object.prototype.toString.call(tmp)  //"[object Array]"
 
 tmp instanceof Array  // 返回 true or false
 //instanceof  的内部机制是通过判断对象的原型链中是不是能找到类型的 prototype。
+
+Array.prototype.isPrototypeOf(tmp)    //返回 true // false
+//isPrototypeOf 与 instanceof 类似， 但检查的对象是Array.prototype
 
 Array.isArray(tmp);
 //Array.isArray(); ES5新增方法，优于instanceof，可以检测出 iframes

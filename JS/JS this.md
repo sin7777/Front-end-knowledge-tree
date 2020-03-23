@@ -83,11 +83,14 @@ console.log(bar.a); // 2
 
 不同之处：
 
-* 语法：call接受两个参数、aplly接受多个参数、bind一个参数
+* 语法：call接受多个参数、aplly接受两个参数（this+数组）、bind一个参数
+  * call 语法：  foo.call(this, arg1,arg2, ... ,argn );
+  * apply 语法： foo.apply(this, [ arg1,arg2, ... ,argn ] )
+  * bind 语法：  foo.bind(this);
 * 调用：call() aplly()立即调用，bind()只绑定，不调用
 
 常用来：
 
-* 处理伪数组（借用数组方法）
+* 处理伪数组（借用数组方法）（伪数组：arguments，getElementsByName(),getElementsByTagName()）
 * 实现继承
 * 合并数组

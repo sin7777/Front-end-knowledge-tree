@@ -10,6 +10,10 @@
 * img标签的 max-heigth 与 max-width
 * transform的translate
 
+## 相对属性
+
+* padding值为百分比时，是相对于父元素的高度而言的，这个可以用来设置**元素高度与宽度有一定比例关系**
+
 ## 相当于包含块的宽度
 
 padding 的百分比是相对于其包含块的宽度，而不是高度

@@ -157,7 +157,7 @@ Child.prototype.sayName = function() {
     console.log('child name:', this.name);
 
 var parent = new Parent('father');
-parent.sayName();    // parent name: fathe
+parent.sayName();    // parent name: father
 var child = new Child('son', 'father');
 child.sayName();     // child name: son
 ```
